@@ -5,12 +5,11 @@ import lombok.Builder;
 
 @Builder
 @lombok.Data
-@JsonPropertyOrder({ "teamAName", "teamBName","teamAScore", "teamBScore" })
-public class FootballEvent extends Event {
+@JsonPropertyOrder({ "title", "teamAScore","teamBScore"})
+public class TennisScoreBoardElement {
 
-    private String teamAName;
+    private String title;
     private String teamAScore;
     private String teamBScore;
-    private String teamBName;
 
 }

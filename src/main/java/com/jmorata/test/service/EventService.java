@@ -1,7 +1,8 @@
 package com.jmorata.test.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmorata.test.domain.Event;
-import com.jmorata.test.exception.EvenFactoryException;
+import com.jmorata.test.exception.EvenServiceException;
 import com.jmorata.test.factory.EventFactory;
 
 public class EventService {
@@ -12,9 +13,16 @@ public class EventService {
         this.input = input;
     }
 
-    public void parse() throws EvenFactoryException {
-        Event event=EventFactory.getInstance(input);
+    public String parse() throws EvenServiceException {
+        try {
+            Event event = EventFactory.getInstance(input);
+            String result = new ObjectMapper().writeValueAsString(event);
 
+            return result;
+
+        } catch (Exception e) {
+            throw new EvenServiceException("Error processing event", e);
+        }
     }
 
 }

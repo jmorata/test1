@@ -6,4 +6,8 @@ public class EvenFactoryException extends Exception {
         super(message, cause);
     }
 
+    public EvenFactoryException(String message) {
+        super(message);
+    }
+
 }

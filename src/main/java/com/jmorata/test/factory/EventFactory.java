@@ -4,7 +4,6 @@ import com.jmorata.test.adapter.AmericanFootballEventAdapter;
 import com.jmorata.test.adapter.FootballEventAdapter;
 import com.jmorata.test.adapter.TennisEventAdapter;
 import com.jmorata.test.domain.Event;
-import com.jmorata.test.domain.FootballEvent;
 import com.jmorata.test.exception.EvenFactoryException;
 
 import java.util.regex.Matcher;
@@ -18,45 +17,34 @@ public class EventFactory {
 
     public static Event getInstance(String input) throws EvenFactoryException {
         try {
-            Event event = getTennisEvent(input);
-            event = getAmericanFootballEvent(input);
-            event = getFootballEvent(input);
+            Pattern pattern = Pattern.compile(TENNIS_PATTERN);
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                return TennisEventAdapter.from(matcher);
+            }
 
-            return event;
+            pattern = Pattern.compile(AMERICAN_FOOTBALL_PATTERN);
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                return AmericanFootballEventAdapter.from(matcher);
+            }
+
+            pattern = Pattern.compile(FOOTBALL_PATTERN);
+            matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                return FootballEventAdapter.from(matcher);
+            }
+
+            else {
+                throw new EvenFactoryException("Not valid input: " + input);
+            }
+
+        } catch (EvenFactoryException e) {
+            throw e;
 
         } catch (Exception e) {
-            throw new EvenFactoryException("Error processing event", e);
+            throw new EvenFactoryException("Error processing input", e);
         }
-    }
-
-    private static Event getTennisEvent(String input) {
-        Pattern pattern = Pattern.compile(TENNIS_PATTERN);
-        Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            return TennisEventAdapter.from(matcher);
-        }
-
-        return null;
-    }
-
-    private static Event getAmericanFootballEvent(String input) {
-        Pattern pattern = Pattern.compile(AMERICAN_FOOTBALL_PATTERN);
-        Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            return AmericanFootballEventAdapter.from(matcher);
-        }
-
-        return null;
-    }
-
-    private static Event getFootballEvent(String input) {
-        Pattern pattern = Pattern.compile(FOOTBALL_PATTERN);
-        Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) {
-            return FootballEventAdapter.from(matcher);
-        }
-
-        return null;
     }
 
 }

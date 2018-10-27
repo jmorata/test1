@@ -17,7 +17,7 @@ public class TennisEventAdapter {
                 .teamAScore(matcher.group(4))
                 .teamBScore(matcher.group(5))
                 .teamBGames(matcher.group(6))
-                .teamBServing(getIsServing(matcher.group(8)))
+                .isServing(getIsServing(matcher.group(8)))
                 .teamBName(matcher.group(9))
                 .scoreboard(getScoreBoard(matcher))
                 .build();

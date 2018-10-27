@@ -1,5 +1,6 @@
 package com.jmorata.test.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Builder;
 
@@ -14,7 +15,9 @@ public class TennisEvent extends Event {
     private String teamBName;
     private String teamAGames;
     private String teamBGames;
-    private Boolean teamBServing;
+
+    @JsonProperty("teamBServing")
+    private Boolean isServing;
     private TennisScoreBoard scoreboard;
 
 }

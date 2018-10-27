@@ -37,6 +37,7 @@ public class EventServiceTest {
     public void test_american_football_event() throws EvenServiceException {
         String input = "Pittsburgh Steelers 3-7 Minnesota Vikings 3rd Quarter";
         String result = parseEvent(input);
+        Assert.assertEquals("{\"teamAName\":\"Pittsburgh Steelers\",\"teamBName\":\"Minnesota Vikings\",\"teamAScore\":\"3\",\"teamBScore\":\"7\",\"currentPeriod\":\"3rd Quarter\"}", result);
     }
 
     private String parseEvent(String input) throws EvenServiceException {

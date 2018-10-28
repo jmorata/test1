@@ -7,18 +7,10 @@ import com.jmorata.test.factory.EventFactory;
 
 public class EventService {
 
-    private String input;
-
-    public EventService(String input) {
-        this.input = input;
-    }
-
-    public String parse() throws EvenServiceException {
+    public String parse(String input) throws EvenServiceException {
         try {
             Event event = EventFactory.getInstance(input);
-            String result = new ObjectMapper().writeValueAsString(event);
-
-            return result;
+            return new ObjectMapper().writeValueAsString(event);
 
         } catch (Exception e) {
             throw new EvenServiceException("Error processing event", e);

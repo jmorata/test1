@@ -9,7 +9,7 @@ public class EventService {
 
     public String parse(String input) throws EvenServiceException {
         try {
-            Event event = EventFactory.getInstance(input);
+            Event event = EventFactory.getInstance(input.trim());
             return new ObjectMapper().writeValueAsString(event);
 
         } catch (Exception e) {

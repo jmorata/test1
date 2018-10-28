@@ -11,14 +11,20 @@ import java.util.regex.Pattern;
 
 public class EventFactory {
 
+    private static String FOOTBALL_PATTERN = "(.*)\\s(\\d+)-(\\d+)\\s((?!.*Quarter.*).*)";
     private static String TENNIS_PATTERN = "(.*)\\s[(](\\d+)[)]\\s(\\d+)\\s(\\d+)-(\\w+)\\s(\\d+)\\s[(](\\d+)[)]\\s([*]?)(.*)";
     private static String AMERICAN_FOOTBALL_PATTERN = "(.*)\\s(\\d+)-(\\d+)\\s(.*)\\s((1st|2nd|3rd|4th)\\sQuarter)";
-    private static String FOOTBALL_PATTERN = "(.*)\\s(\\d+)-(\\d+)\\s(.*)";
 
     public static Event getInstance(String input) throws EvenFactoryException {
         try {
-            Pattern pattern = Pattern.compile(TENNIS_PATTERN);
+            Pattern pattern = Pattern.compile(FOOTBALL_PATTERN);
             Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                return FootballEventAdapter.from(matcher);
+            }
+
+            pattern = Pattern.compile(TENNIS_PATTERN);
+            matcher = pattern.matcher(input);
             if (matcher.find()) {
                 return TennisEventAdapter.from(matcher);
             }
@@ -27,16 +33,9 @@ public class EventFactory {
             matcher = pattern.matcher(input);
             if (matcher.find()) {
                 return AmericanFootballEventAdapter.from(matcher);
-            }
 
-            pattern = Pattern.compile(FOOTBALL_PATTERN);
-            matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                return FootballEventAdapter.from(matcher);
-            }
-
-            else {
-                throw new EvenFactoryException("Not valid input: " + input);
+            } else {
+                throw new EvenFactoryException("Not valid input");
             }
 
         } catch (EvenFactoryException e) {
